@@ -1,6 +1,6 @@
 cask "iterm2@nightly" do
   # NOTE: "2" is not a version number, but an intrinsic part of the product name
-  version "3_5_20250105"
+  version "3.5.20250101-nightly"
   sha256 "94ffd61ace9c5689c3e5bba299523195ca8c56976f34d841c0302f74cda02193"
 
   url "https://iterm2.com/nightly/iTerm2-#{version}-nightly.zip"
@@ -9,8 +9,12 @@ cask "iterm2@nightly" do
   homepage "https://iterm2.com/"
 
   livecheck do
-    url "https://iterm2.com/nightly/latest"
-    strategy :header_match
+    # workaround for
+    # - https://github.com/Homebrew/homebrew-cask/pull/104019
+    # - https://github.com/gnachman/iterm2-website/issues/82
+    # url "https://iterm2.com/appcasts/nightly_modern.xml"
+    url "https://raw.githubusercontent.com/gnachman/iterm2-website/master/source/appcasts/nightly_modern.xml"
+    strategy :sparkle, &:version
   end
 
   conflicts_with cask: [
